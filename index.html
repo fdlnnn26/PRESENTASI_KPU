@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan PKL — KPU Kota Bogor 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C8102E;
+    --dark: #0D0D0D;
+    --cream: #F5F0E8;
+    --gold: #C9A84C;
+    --mid: #2A2A2A;
+    --grey: #6B6B6B;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    cursor: default;
+  }
+
+  /* SLIDES CONTAINER */
+  .deck {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: none;
+    padding: 60px;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .slide.entering {
+    animation: slideEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .slide.leaving {
+    animation: slideLeave 0.5s cubic-bezier(0.7, 0, 1, 1) forwards;
+  }
+
+  .slide.entering-back {
+    animation: slideEnterBack 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .slide.leaving-back {
+    animation: slideLeaveBack 0.5s cubic-bezier(0.7, 0, 1, 1) forwards;
+  }
+
+  @keyframes slideEnter {
+    from { opacity: 0; transform: translateX(80px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideLeave {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(-80px); }
+  }
+  @keyframes slideEnterBack {
+    from { opacity: 0; transform: translateX(-80px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideLeaveBack {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(80px); }
+  }
+
+  /* TYPOGRAPHY */
+  .display {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    line-height: 1.05;
+  }
+
+  .label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--gold);
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--red);
+    transition: width 0.5s ease;
+    z-index: 100;
+  }
+
+  /* NAV DOTS */
+  .nav-dots {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .dot.active {
+    background: var(--gold);
+    width: 24px;
+    border-radius: 3px;
+  }
+
+  /* ARROW BUTTONS */
+  .btn-prev, .btn-next {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .btn-prev:hover, .btn-next:hover {
+    background: rgba(200,16,46,0.3);
+    border-color: var(--red);
+  }
+
+  .btn-prev { left: 20px; }
+  .btn-next { right: 20px; }
+
+  /* SLIDE COUNTER */
+  .counter {
+    position: fixed;
+    top: 24px;
+    right: 32px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 2px;
+    z-index: 100;
+  }
+
+  /* ============================================
+     SLIDE 1 — COVER
+  ============================================ */
+  .slide-cover {
+    background: var(--dark);
+    align-items: flex-start;
+  }
+
+  .slide-cover .bg-geo {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .slide-cover .bg-geo::before {
+    content: '';
+    position: absolute;
+    right: -100px;
+    top: -100px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,16,46,0.15) 0%, transparent 70%);
+  }
+
+  .slide-cover .bg-geo::after {
+    content: '';
+    position: absolute;
+    left: 20%;
+    bottom: -150px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 70%);
+  }
+
+  .slide-cover .red-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 8px;
+    background: var(--red);
+  }
+
+  .cover-content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+  }
+
+  .cover-content .label {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cover-content .label::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .cover-content h1 {
+    font-size: clamp(42px, 6vw, 72px);
+    margin-bottom: 8px;
+  }
+
+  .cover-content h1 span {
+    color: var(--red);
+    display: block;
+  }
+
+  .cover-content .sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 20px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .cover-content .meta {
+    margin-top: 48px;
+    display: flex;
+    gap: 40px;
+  }
+
+  .meta-item .meta-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .meta-item .meta-val {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.5;
+  }
+
+  .cover-school {
+    position: absolute;
+    bottom: 60px;
+    right: 60px;
+    text-align: right;
+  }
+
+  .cover-school .school-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 1px;
+  }
+
+  .cover-school .school-detail {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    margin-top: 4px;
+  }
+
+  /* ============================================
+     SLIDE 2 — PENDAHULUAN
+  ============================================ */
+  .slide-pendahuluan {
+    background: var(--cream);
+    color: var(--dark);
+  }
+
+  .slide-pendahuluan .accent-corner {
+    position: absolute;
+    top: 0; right: 0;
+    width: 220px;
+    height: 220px;
+    background: var(--red);
+    clip-path: polygon(100% 0, 0 0, 100% 100%);
+  }
+
+  .slide-pendahuluan .label { color: var(--red); }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    width: 100%;
+    max-width: 960px;
+  }
+
+  .col-left h2 {
+    font-size: clamp(36px, 4vw, 54px);
+    color: var(--dark);
+    margin-top: 16px;
+    margin-bottom: 24px;
+  }
+
+  .col-left p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #444;
+  }
+
+  .col-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .card-item {
+    background: white;
+    border-left: 3px solid var(--red);
+    padding: 16px 20px;
+    border-radius: 2px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    animation-fill-mode: both;
+  }
+
+  .card-item .ci-num {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--red);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .card-item .ci-text {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+
+  /* ============================================
+     SLIDE 3 — TUJUAN PKL
+  ============================================ */
+  .slide-tujuan {
+    background: #111111;
+  }
+
+  .slide-tujuan .bg-lines {
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.02) 0px,
+      rgba(255,255,255,0.02) 1px,
+      transparent 1px,
+      transparent 80px
+    );
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .section-header h2 {
+    font-size: clamp(32px, 4vw, 52px);
+    margin-top: 12px;
+  }
+
+  .goals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 960px;
+  }
+
+  .goal-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 24px 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .goal-card:hover {
+    border-color: rgba(200,16,46,0.4);
+  }
+
+  .goal-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    transform-origin: left;
+  }
+
+  .goal-card:hover::before { transform: scaleX(1); }
+
+  .goal-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 900;
+    color: rgba(200,16,46,0.2);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .goal-text {
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.65);
+  }
+
+  /* ============================================
+     SLIDE 4 — PROFIL KPU
+  ============================================ */
+  .slide-profil {
+    background: #F8F4EE;
+    color: var(--dark);
+    align-items: flex-start;
+  }
+
+  .slide-profil .label { color: var(--red); }
+
+  .profil-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    width: 100%;
+    max-width: 960px;
+  }
+
+  .profil-left h2 {
+    font-size: clamp(32px, 4vw, 48px);
+    margin: 12px 0 20px;
+    color: var(--dark);
+  }
+
+  .profil-left p {
+    font-size: 13px;
+    line-height: 1.85;
+    color: #555;
+  }
+
+  .profil-right {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .vm-block {
+    background: white;
+    padding: 20px 24px;
+    border-radius: 4px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+
+  .vm-block .vm-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+
+  .vm-block p, .vm-block li {
+    font-size: 12px;
+    line-height: 1.8;
+    color: #555;
+  }
+
+  .vm-block ul {
+    padding-left: 16px;
+  }
+
+  /* ============================================
+     SLIDE 5 — FUNGSI KPU
+  ============================================ */
+  .slide-fungsi {
+    background: var(--dark);
+  }
+
+  .fungsi-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 960px;
+  }
+
+  .fungsi-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 4px;
+    padding: 20px 14px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .fungsi-card:hover {
+    background: rgba(200,16,46,0.08);
+    border-color: rgba(200,16,46,0.3);
+    transform: translateY(-4px);
+  }
+
+  .fungsi-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .fungsi-title {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.75);
+  }
+
+  /* ============================================
+     SLIDE 6 — STRUKTUR ORG
+  ============================================ */
+  .slide-struktur {
+    background: #0A0A0A;
+  }
+
+  .org-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .org-row {
+    display: flex;
+    gap: 20px;
+    position: relative;
+  }
+
+  .org-row::before {
+    content: '';
+    position: absolute;
+    top: -20px; left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 20px;
+    background: rgba(200,16,46,0.4);
+  }
+
+  .org-row:first-child::before { display: none; }
+
+  .org-connector {
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .org-node {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 12px 20px;
+    text-align: center;
+    min-width: 160px;
+    position: relative;
+  }
+
+  .org-node.top-node {
+    border-color: var(--red);
+    background: rgba(200,16,46,0.1);
+    min-width: 200px;
+  }
+
+  .org-node .node-title {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.4;
+  }
+
+  .org-node.top-node .node-title {
+    color: white;
+    font-size: 12px;
+  }
+
+  .org-node .node-role {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .org-branch {
+    display: flex;
+    gap: 12px;
+    position: relative;
+  }
+
+  .org-branch::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 20px;
+    background: rgba(200,16,46,0.3);
+  }
+
+  .h-line {
+    position: absolute;
+    top: -20px;
+    height: 1px;
+    background: rgba(200,16,46,0.3);
+  }
+
+  /* ============================================
+     SLIDE 7 — HELPDESK
+  ============================================ */
+  .slide-helpdesk {
+    background: #F2EDE5;
+    color: var(--dark);
+  }
+
+  .slide-helpdesk .label { color: var(--red); }
+
+  .hd-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: center;
+    width: 100%;
+    max-width: 960px;
+  }
+
+  .hd-left h2 {
+    font-size: clamp(32px, 4vw, 50px);
+    margin: 12px 0 24px;
+    color: var(--dark);
+  }
+
+  .hd-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .hd-left p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #555;
+  }
+
+  .hd-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .hd-stat {
+    background: white;
+    padding: 20px 24px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .hd-stat-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(200,16,46,0.08);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .hd-stat-info .hd-stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+
+  .hd-stat-info .hd-stat-val {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark);
+    line-height: 1.4;
+  }
+
+  /* ============================================
+     SLIDE 8 — PENUTUP
+  ============================================ */
+  .slide-penutup {
+    background: var(--dark);
+  }
+
+  .penutup-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    width: 100%;
+    max-width: 960px;
+  }
+
+  .penutup-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 32px;
+    position: relative;
+  }
+
+  .penutup-card .pc-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .penutup-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .penutup-card p, .penutup-card li {
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .penutup-card ul { padding-left: 16px; }
+
+  /* ============================================
+     SLIDE 9 — THANK YOU
+  ============================================ */
+  .slide-thanks {
+    background: var(--dark);
+    align-items: center;
+    text-align: center;
+  }
+
+  .slide-thanks .bg-geo {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .slide-thanks .bg-geo::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,16,46,0.12) 0%, transparent 65%);
+  }
+
+  .thanks-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .thanks-content .big-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 1.0;
+  }
+
+  .thanks-content .big-text .red { color: var(--red); }
+
+  .thanks-content .sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 24px;
+    letter-spacing: 1px;
+  }
+
+  .thanks-team {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin-top: 48px;
+  }
+
+  .team-name {
+    text-align: center;
+  }
+
+  .team-name .tname {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .team-name .tclass {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .divider-dot {
+    color: var(--red);
+    font-size: 24px;
+    line-height: 1;
+    align-self: center;
+  }
+
+  /* STAGGER ANIMATIONS */
+  .stagger > * {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .slide.active .stagger > *:nth-child(1) { animation: fadeUp 0.5s 0.1s ease forwards; }
+  .slide.active .stagger > *:nth-child(2) { animation: fadeUp 0.5s 0.2s ease forwards; }
+  .slide.active .stagger > *:nth-child(3) { animation: fadeUp 0.5s 0.3s ease forwards; }
+  .slide.active .stagger > *:nth-child(4) { animation: fadeUp 0.5s 0.4s ease forwards; }
+  .slide.active .stagger > *:nth-child(5) { animation: fadeUp 0.5s 0.5s ease forwards; }
+  .slide.active .stagger > *:nth-child(6) { animation: fadeUp 0.5s 0.6s ease forwards; }
+
+  .fade-in {
+    opacity: 0;
+  }
+  .slide.active .fade-in {
+    animation: fadeIn 0.7s 0.1s ease forwards;
+  }
+  .slide.active .fade-in.d2 { animation-delay: 0.25s; }
+  .slide.active .fade-in.d3 { animation-delay: 0.4s; }
+  .slide.active .fade-in.d4 { animation-delay: 0.55s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  /* KEYBOARD HINT */
+  .hint {
+    position: fixed;
+    bottom: 70px;
+    right: 32px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+<div class="counter" id="counter">1 / 9</div>
+
+<button class="btn-prev" id="btnPrev">←</button>
+<button class="btn-next" id="btnNext">→</button>
+
+<div class="nav-dots" id="navDots"></div>
+<div class="hint">← → untuk navigasi</div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: COVER -->
+  <div class="slide slide-cover active" data-index="0">
+    <div class="bg-geo"></div>
+    <div class="red-bar"></div>
+    <div class="cover-content stagger">
+      <div class="label">Laporan Praktik Kerja Lapangan · 2026</div>
+      <h1 class="display">
+        Komisi<br>Pemilihan<br><span>Umum</span>
+      </h1>
+      <p class="sub">Kota Bogor · XI Rekayasa Perangkat Lunak<br>SMK Tri Dharma 2 Bogor</p>
+      <div class="meta">
+        <div class="meta-item">
+          <div class="meta-label">Disusun Oleh</div>
+          <div class="meta-val">Hamdan Rizqullah<br>Helmy Zaid Ramadhan<br>M. Rafka Hadiansyah</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Tahun</div>
+          <div class="meta-val">April 2026</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Program</div>
+          <div class="meta-val">Teknologi Informasi<br>& Komunikasi</div>
+        </div>
+      </div>
+    </div>
+    <div class="cover-school">
+      <div class="school-name">SMK TRI DHARMA 2 BOGOR</div>
+      <div class="school-detail">Jl. Raya Kebon Pedes No.25 · Bogor</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: PENDAHULUAN -->
+  <div class="slide slide-pendahuluan" data-index="1">
+    <div class="accent-corner"></div>
+    <div class="two-col">
+      <div class="col-left stagger">
+        <div class="label">01 · Pendahuluan</div>
+        <h2 class="display">Latar Belakang</h2>
+        <p>SMK Tri Dharma 2 Bogor mendorong siswanya untuk menguasai kemampuan dasar dan wawasan luas di bidang TIK. Salah satu caranya adalah dengan menerjunkan siswa langsung ke dunia kerja melalui Praktik Kerja Lapangan (PKL).</p>
+        <br>
+        <p>Kegiatan ini dilaksanakan di <strong>Komisi Pemilihan Umum (KPU) Kota Bogor</strong> sebagai salah satu instansi pemerintah yang bergerak di bidang penyelenggaraan pemilu.</p>
+      </div>
+      <div class="col-right stagger">
+        <div class="card-item">
+          <div class="ci-num">01</div>
+          <div class="ci-text">Menerapkan teori sekolah ke dunia industri nyata</div>
+        </div>
+        <div class="card-item">
+          <div class="ci-num">02</div>
+          <div class="ci-text">Mendapatkan pengalaman kerja profesional</div>
+        </div>
+        <div class="card-item">
+          <div class="ci-num">03</div>
+          <div class="ci-text">Syarat wajib kenaikan kelas & kelulusan SMK</div>
+        </div>
+        <div class="card-item">
+          <div class="ci-num">04</div>
+          <div class="ci-text">Membandingkan materi sekolah dengan dunia kerja sesungguhnya</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: TUJUAN PKL -->
+  <div class="slide slide-tujuan" data-index="2">
+    <div class="bg-lines"></div>
+    <div class="section-header fade-in">
+      <div class="label">02 · Tujuan</div>
+      <h2 class="display">Tujuan PKL</h2>
+    </div>
+    <div class="goals-grid stagger">
+      <div class="goal-card">
+        <div class="goal-num">01</div>
+        <div class="goal-text">Menerapkan materi sekolah dalam dunia industri secara langsung</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">02</div>
+        <div class="goal-text">Membentuk pola pikir konstruktif untuk melihat peluang usaha masa depan</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">03</div>
+        <div class="goal-text">Melatih komunikasi secara profesional di dunia industri</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">04</div>
+        <div class="goal-text">Membentuk etos kerja yang baik untuk menjadi tenaga berkualitas</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">05</div>
+        <div class="goal-text">Menambah keterampilan dan pengetahuan siswa siswi</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-num">06</div>
+        <div class="goal-text">Memberikan pengalaman nyata di dunia industri</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: PROFIL KPU -->
+  <div class="slide slide-profil" data-index="3">
+    <div class="profil-layout">
+      <div class="profil-left stagger">
+        <div class="label">03 · Instansi</div>
+        <h2 class="display">KPU Kota Bogor</h2>
+        <p>Lembaga penyelenggara pemilu di tingkat kota yang bersifat <strong>nasional, tetap, dan mandiri</strong>. Bertugas menyelenggarakan pemilu secara langsung, umum, bebas, rahasia, jujur, dan adil (LUBER JURDIL).</p>
+        <br>
+        <p>Dibentuk pada tahun <strong>2003</strong> berdasarkan Keputusan KPU RI tentang pembentukan KPU Daerah.</p>
+      </div>
+      <div class="profil-right stagger">
+        <div class="vm-block">
+          <div class="vm-title">Visi</div>
+          <p>Menjadi penyelenggara pemilihan umum yang <strong>mandiri, profesional, dan berintegritas</strong> untuk terwujudnya Pemilu yang LUBER dan JURDIL.</p>
+        </div>
+        <div class="vm-block">
+          <div class="vm-title">Misi Utama</div>
+          <ul>
+            <li>Meningkatkan kualitas penyelenggaraan Pemilu yang efektif dan transparan</li>
+            <li>Meningkatkan integritas dan profesionalisme penyelenggara</li>
+            <li>Mengoptimalkan pemanfaatan teknologi informasi dalam pemilu</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: FUNGSI KPU -->
+  <div class="slide slide-fungsi" data-index="4">
+    <div class="section-header fade-in">
+      <div class="label">04 · Fungsi & Tugas</div>
+      <h2 class="display">Fungsi KPU</h2>
+    </div>
+    <div class="fungsi-grid stagger">
+      <div class="fungsi-card">
+        <div class="fungsi-icon">🗳️</div>
+        <div class="fungsi-title">Pendaftaran & Verifikasi Peserta Pemilu</div>
+      </div>
+      <div class="fungsi-card">
+        <div class="fungsi-icon">📋</div>
+        <div class="fungsi-title">Penyusunan Daftar Pemilih Tetap (DPT)</div>
+      </div>
+      <div class="fungsi-card">
+        <div class="fungsi-icon">✅</div>
+        <div class="fungsi-title">Penetapan Calon (Presiden, Legislatif, Kepala Daerah)</div>
+      </div>
+      <div class="fungsi-card">
+        <div class="fungsi-icon">📣</div>
+        <div class="fungsi-title">Pengaturan & Pengawasan Kampanye</div>
+      </div>
+      <div class="fungsi-card">
+        <div class="fungsi-icon">📊</div>
+        <div class="fungsi-title">Penghitungan & Pengumuman Hasil Pemilu</div>
+      </div>
+      <div class="fungsi-card">
+        <div class="fungsi-icon">⚖️</div>
+        <div class="fungsi-title">Penyelesaian Sengketa Pemilu</div>
+      </div>
+      <div class="fungsi-card">
+        <div class="fungsi-icon">🎓</div>
+        <div class="fungsi-title">Penyuluhan & Pendidikan Pemilu</div>
+      </div>
+      <div class="fungsi-card">
+        <div class="fungsi-icon">🔍</div>
+        <div class="fungsi-title">Pengawasan & Pengawalan Proses Pemilu</div>
+      </div>
+      <div class="fungsi-card">
+        <div class="fungsi-icon">📂</div>
+        <div class="fungsi-title">Keterbukaan & Transparansi Data</div>
+      </div>
+      <div class="fungsi-card">
+        <div class="fungsi-icon">📝</div>
+        <div class="fungsi-title">Evaluasi & Pelaporan Kinerja KPU</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: STRUKTUR ORG -->
+  <div class="slide slide-struktur" data-index="5">
+    <div class="section-header fade-in">
+      <div class="label">05 · Organisasi</div>
+      <h2 class="display">Struktur Organisasi</h2>
+    </div>
+    <div class="org-chart fade-in d2" style="position:relative;">
+      <!-- Level 1 -->
+      <div class="org-row">
+        <div class="org-node top-node">
+          <div class="node-role">Ketua</div>
+          <div class="node-title">KPU Kota Bogor</div>
+        </div>
+      </div>
+
+      <!-- Connector -->
+      <div style="width:1px;height:20px;background:rgba(200,16,46,0.4);margin:0 auto;"></div>
+
+      <!-- Level 2 -->
+      <div style="display:flex;gap:20px;position:relative;">
+        <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:360px;height:1px;background:rgba(200,16,46,0.3);top:0;"></div>
+        <div style="position:absolute;top:0;left:calc(25% - 90px);width:1px;height:20px;background:rgba(200,16,46,0.3);transform:translateY(-100%);"></div>
+        <div style="position:absolute;top:0;right:calc(25% - 90px);width:1px;height:20px;background:rgba(200,16,46,0.3);transform:translateY(-100%);"></div>
+        <div class="org-node">
+          <div class="node-role">Anggota I</div>
+          <div class="node-title">Divisi Teknis</div>
+        </div>
+        <div class="org-node">
+          <div class="node-role">Sekretaris</div>
+          <div class="node-title">Hangga Pramaditya, S.H.,M.H</div>
+        </div>
+        <div class="org-node">
+          <div class="node-role">Anggota II</div>
+          <div class="node-title">Divisi Hukum</div>
+        </div>
+      </div>
+
+      <div style="width:1px;height:20px;background:rgba(200,16,46,0.4);margin:0 auto;"></div>
+
+      <!-- Level 3 -->
+      <div style="display:flex;gap:16px;">
+        <div class="org-node" style="min-width:130px;">
+          <div class="node-role">Sub Bagian</div>
+          <div class="node-title">Umum & Logistik</div>
+        </div>
+        <div class="org-node" style="min-width:130px;">
+          <div class="node-role">Sub Bagian</div>
+          <div class="node-title">Hukum & SDM</div>
+        </div>
+        <div class="org-node" style="min-width:130px;">
+          <div class="node-role">Sub Bagian</div>
+          <div class="node-title">Teknis & Hupmas</div>
+        </div>
+        <div class="org-node" style="min-width:130px;">
+          <div class="node-role">Sub Bagian</div>
+          <div class="node-title">Keuangan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: HELPDESK -->
+  <div class="slide slide-helpdesk" data-index="6">
+    <div class="hd-layout">
+      <div class="hd-left stagger">
+        <div class="label">06 · Kegiatan PKL</div>
+        <div class="hd-badge">🖥️ Help Desk</div>
+        <h2 class="display">Pelaksanaan Praktik</h2>
+        <p>Memberikan <strong>bantuan teknis dan solusi cepat</strong> secara terpusat untuk keluhan pengguna atau masalah IT di lingkungan KPU Kota Bogor.</p>
+        <br>
+        <p>Salah satu kegiatan utama yang dilakukan adalah <strong>menampilkan agenda untuk pegawai</strong> menggunakan sistem digital internal KPU.</p>
+      </div>
+      <div class="hd-right stagger">
+        <div class="hd-stat">
+          <div class="hd-stat-icon">🎯</div>
+          <div class="hd-stat-info">
+            <div class="hd-stat-label">Tujuan</div>
+            <div class="hd-stat-val">Meningkatkan kepuasan pelanggan & efisiensi operasional</div>
+          </div>
+        </div>
+        <div class="hd-stat">
+          <div class="hd-stat-icon">📑</div>
+          <div class="hd-stat-info">
+            <div class="hd-stat-label">Kegiatan Utama</div>
+            <div class="hd-stat-val">Menampilkan agenda pegawai di sistem KPU</div>
+          </div>
+        </div>
+        <div class="hd-stat">
+          <div class="hd-stat-icon">💡</div>
+          <div class="hd-stat-info">
+            <div class="hd-stat-label">Manfaat</div>
+            <div class="hd-stat-val">Mendokumentasikan & menyelesaikan insiden IT secara terstruktur</div>
+          </div>
+        </div>
+        <div class="hd-stat">
+          <div class="hd-stat-icon">🏢</div>
+          <div class="hd-stat-info">
+            <div class="hd-stat-label">Pembimbing PKL</div>
+            <div class="hd-stat-val">Andhianna, S.I.P</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: PENUTUP -->
+  <div class="slide slide-penutup" data-index="7">
+    <div class="section-header fade-in">
+      <div class="label">07 · Penutup</div>
+      <h2 class="display">Kesimpulan & Saran</h2>
+    </div>
+    <div class="penutup-layout">
+      <div class="penutup-card fade-in d2">
+        <div class="pc-icon">💼</div>
+        <h3>Kesimpulan</h3>
+        <p>Kegiatan PKL sangat membantu mempersiapkan siswa untuk terjun ke dunia kerja. Pengalaman di KPU Kota Bogor memberikan keahlian sesuai bidang RPL dan wawasan tentang sistem pemerintahan.</p>
+        <br>
+        <p>Karyawan KPU yang ramah dan kooperatif membuat proses belajar menjadi lebih efektif dan menyenangkan.</p>
+      </div>
+      <div class="penutup-card fade-in d3">
+        <div class="pc-icon">💬</div>
+        <h3>Saran</h3>
+        <ul>
+          <li>Untuk adik kelas: Persiapkan materi sekolah dengan matang sebelum PKL</li>
+          <li>Untuk sekolah: Pertimbangkan jarak tempat PKL dari tempat tinggal siswa</li>
+          <li>Untuk KPU Bogor: Terus buka kesempatan magang bagi siswa SMK Tri Dharma 2</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: THANK YOU -->
+  <div class="slide slide-thanks" data-index="8">
+    <div class="bg-geo"></div>
+    <div class="thanks-content stagger">
+      <div class="label" style="justify-content:center;display:flex;gap:12px;align-items:center;">
+        <span style="display:inline-block;width:32px;height:1px;background:var(--gold);"></span>
+        Terima Kasih
+        <span style="display:inline-block;width:32px;height:1px;background:var(--gold);"></span>
+      </div>
+      <div class="big-text display">
+        Laporan<br><span class="red">PKL</span><br>2026
+      </div>
+      <p class="sub">KPU Kota Bogor · SMK Tri Dharma 2 · XI RPL</p>
+      <div class="thanks-team">
+        <div class="team-name">
+          <div class="tname">Hamdan Rizqullah</div>
+          <div class="tclass">XI RPL</div>
+        </div>
+        <div class="divider-dot">·</div>
+        <div class="team-name">
+          <div class="tname">Helmy Zaid Ramadhan</div>
+          <div class="tclass">XI RPL</div>
+        </div>
+        <div class="divider-dot">·</div>
+        <div class="team-name">
+          <div class="tname">M. Rafka Hadiansyah</div>
+          <div class="tclass">XI RPL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const TOTAL = 9;
+  let current = 0;
+  let animating = false;
+
+  const slides = document.querySelectorAll('.slide');
+  const progress = document.getElementById('progress');
+  const counter = document.getElementById('counter');
+  const navDots = document.getElementById('navDots');
+
+  // Build dots
+  for (let i = 0; i < TOTAL; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goTo(i));
+    navDots.appendChild(dot);
+  }
+
+  function updateUI() {
+    progress.style.width = ((current + 1) / TOTAL * 100) + '%';
+    counter.textContent = (current + 1) + ' / ' + TOTAL;
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.className = 'dot' + (i === current ? ' active' : '');
+    });
+  }
+
+  function goTo(target, direction) {
+    if (animating || target === current) return;
+    if (target < 0 || target >= TOTAL) return;
+    animating = true;
+
+    const dir = direction !== undefined ? direction : (target > current ? 1 : -1);
+    const from = slides[current];
+    const to = slides[target];
+
+    from.classList.add(dir > 0 ? 'leaving' : 'leaving-back');
+    to.classList.add(dir > 0 ? 'entering' : 'entering-back');
+    to.classList.add('active');
+
+    setTimeout(() => {
+      from.classList.remove('active', 'leaving', 'leaving-back');
+      to.classList.remove('entering', 'entering-back');
+      current = target;
+      updateUI();
+      animating = false;
+    }, 600);
+  }
+
+  document.getElementById('btnNext').addEventListener('click', () => goTo(current + 1, 1));
+  document.getElementById('btnPrev').addEventListener('click', () => goTo(current - 1, -1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1, 1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1, -1);
+  });
+
+  // Touch/swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) goTo(dx < 0 ? current + 1 : current - 1, dx < 0 ? 1 : -1);
+  });
+
+  updateUI();
+</script>
+</body>
+</html>
