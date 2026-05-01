@@ -624,8 +624,35 @@
 
   .team-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 2px;
+  }
+
+  .team-card.founder {
+    border-color: rgba(184,151,90,0.35);
+    position: relative;
+  }
+  .team-card.founder::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .founder-badge {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(184,151,90,0.1);
+    border: 1px solid rgba(184,151,90,0.25);
+    padding: 4px 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  .team-avatar.founder-av {
+    border-color: var(--gold);
+    background: rgba(184,151,90,0.08);
   }
 
   .team-card {
@@ -1107,21 +1134,29 @@
     </div>
 
     <div class="team-grid">
-      <div class="team-card reveal">
+      <div class="team-card founder reveal">
+        <div class="founder-badge">✦ Founder</div>
+        <div class="team-avatar founder-av">MF</div>
+        <div class="team-name">Muhammad Fadlan</div>
+        <div class="team-role">Founder & CEO</div>
+        <p class="team-bio">Visionary behind FDN Capital, pioneering the convergence of blockchain technology and institutional investment management for the digital era.</p>
+      </div>
+
+      <div class="team-card reveal reveal-delay-1">
         <div class="team-avatar">AK</div>
         <div class="team-name">Adrian Kurniawan</div>
         <div class="team-role">Chief Investment Officer</div>
         <p class="team-bio">15+ years leading digital asset investment strategies across Southeast Asia and global markets. Former Head of Quant at a leading Singapore family office.</p>
       </div>
 
-      <div class="team-card reveal reveal-delay-1">
+      <div class="team-card reveal reveal-delay-2">
         <div class="team-avatar">SR</div>
         <div class="team-name">Siti Rahayu</div>
         <div class="team-role">Chief Risk Officer</div>
         <p class="team-bio">Expert in blockchain-native risk frameworks with deep experience in regulatory compliance across ASEAN financial markets.</p>
       </div>
 
-      <div class="team-card reveal reveal-delay-2">
+      <div class="team-card reveal reveal-delay-3">
         <div class="team-avatar">DH</div>
         <div class="team-name">Daniel Hartono</div>
         <div class="team-role">Head of Research</div>
